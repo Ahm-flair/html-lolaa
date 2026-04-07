@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Lola ✨</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
+    background-size: 600% 600%;
+    animation: gradientShift 12s ease infinite;
+    overflow: hidden;
+    color: white;
+}
+
+@keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    background: #ff4ecd;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff4ecd;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    padding: 25px;
+    border-radius: 20px;
+    max-width: 900px;
+    width: 100%;
+    align-items: center;
+    box-shadow: 0 0 50px rgba(255, 78, 205, 0.3);
+    animation: fadeIn 1s ease;
+}
+
+.image-box {
+    flex: 1;
+}
+
+.image-box img {
+    width: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    transition: transform 0.5s ease;
+}
+
+.image-box img:hover {
+    transform: scale(1.05);
+}
+
+.text-box {
+    flex: 1;
+    line-height: 1.7;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+    <h1>Hey Lola ✨</h1>
+    <button onclick="openModal()">Tap to Begin</button>
+</div>
+
+<div class="modal" id="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+
+    <div class="modal-content">
+
+        <div class="image-box">
+            <img src="her-photo.jpg" alt="Lola">
+        </div>
+
+        <div class="text-box">
+            <p>
+            Hey Lola… today’s your day.  
+            And honestly, these past few months getting to know you?  
+            They’ve been one of the best parts of my year—easily one of the most special experiences I’ve had.  
+
+            I know it’s been fast… and maybe we’re still figuring things out,  
+            but I won’t lie—it’s been fun, real, and something I genuinely value.  
+
+            Your voice… your energy… that smile (yeah, the dimples too)…  
+            there’s just something about you.  
+
+            I know this is coming a bit late,  
+            but still… it’s your moment.  
+
+            I just want you to know I’m grateful for you.  
+            I wish you everything good—everything you truly want for yourself.  
+
+            ✨ Happy Birthday, Lola. ✨
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+/* PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particlesArray = [];
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+    }
+
+    draw() {
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    for (let i = 0; i < 120; i++) {
+        particlesArray.push(new Particle());
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particlesArray.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
